@@ -4,7 +4,10 @@ module.exports = {
     find,
     findBy,
     add,
-    findById
+    findById,
+    findUserPins,
+    findPins,
+    pinToProfile
 }
 
 function find() {
@@ -26,4 +29,24 @@ function findById(id) {
     return db('users')
     .where({ id })
     .first();
+}
+
+function findUserPins(id) {
+    return db('pins')
+    .select('title', 'author', 'category')
+    .from('pins as p')
+    .innerJoin('user_pins', 'p.id', 'user_pins.pin_id')
+    .innerJoin('users as u', 'u.id', 'user_pins.user_id')
+    .where('u.id', id);
+}
+
+function findPins() {
+    return db('pins');
+}
+
+//user pins an article(pin) to their profile 
+async function pinToProfile(newPin) {
+   const [id] = await db('user_pins').insert(newPin);
+
+   return findById(id);
 }
