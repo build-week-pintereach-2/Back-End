@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
             //if they exist and match, give token
             const token = generateToken(user);
             console.log('token', token); //make sure token works
-            res.json({ message: 'Logged in', token: token });
+            res.status(201).json({ message: 'Logged in', token: token });
 
         } else {
             res.status(401).json({ message: "Wrong username or password" });
