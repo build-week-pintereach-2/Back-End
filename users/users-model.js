@@ -11,6 +11,7 @@ module.exports = {
     removePinFromProfile,
     removeUser,
     updateUser,
+    addPin
 
 }
 
@@ -35,6 +36,11 @@ function findById(id) {
     .first();
 }
 
+function addPin(pin) {
+    return db('pins')
+    .insert(pin);
+
+}
 function findUserPins(id) {
     return db('pins')
     .select('title', 'author', 'category')
@@ -49,10 +55,12 @@ function findPins() {
 }
 
 //user pins an article(pin) to their profile 
-async function pinToProfile(newPin) {
-   const [id] = await db('user_pins').insert(newPin);
+function pinToProfile(newPin) {
+//    const [id] = await db('user_pins').insert(newPin);
 
-   return findById(id);
+//    return findById(id);
+    return db('user_pins')
+    .insert(newPin);
 }
 
 //delete pin from user profile
@@ -65,9 +73,9 @@ function removePinFromProfile(pinID) {
 }
 
 //remove user from user db
-function removeUser(userID) {
+function removeUser(id) {
     return db('users')
-    .where('users.id', userID)
+    .where({ id })
     .del();
 }
 
