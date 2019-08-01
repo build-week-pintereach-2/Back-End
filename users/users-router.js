@@ -15,6 +15,21 @@ router.get('/', authenticate, (req, res) => {
     })
 })
 
+//get specifc user
+router.get('/:id', authenticate, (req, res) => {
+    const { id } = req.params;
+    Users.findById(id)
+    .then(user => {
+        if(user){
+        res.json(user);
+        } else {
+            res.status(404).json({ message: 'Could not find user with that id' });
+        }
+    })
+    .catch(err => {
+        res.status(500).json({message: 'could not show user'})
+    })
+})
 //get user pins
 router.get('/:id/pins', authenticate, (req, res) => {
     const { id } = req.params;
@@ -33,7 +48,7 @@ router.get('/:id/pins', authenticate, (req, res) => {
 }) 
 
 //get all pins
-router.get('/pins', authenticate, (req, res) => {
+router.get('/pins/dashboard', authenticate, (req, res) => {
     Users.findPins()
     .then(pins => {
         res.json(pins);
@@ -51,7 +66,7 @@ router.post('/:id/pins', authenticate, (req, res) => {
 
     Users.pinToProfile(newPin)
     .then(pin => {
-        console.log(pin);
+        console.log({pin: pin});
         res.status(201).json(pin);
     })
     .catch(err => {

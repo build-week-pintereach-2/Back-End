@@ -10,7 +10,7 @@ exports.up = function(knex) {
       .references('id')
       .inTable('users')
       .onUpdate('CASCADE')
-      .onDelete('RESTRICT');
+      .onDelete('CASCADE');
       tbl
         .integer('pin_id')
         .unsigned()
@@ -18,7 +18,7 @@ exports.up = function(knex) {
         .references('id')
         .inTable('pins')
         .onUpdate('CASCADE')
-        .onDelete('RESTRICT');          
+        .onDelete('CASCADE');          
   })
 };
 
