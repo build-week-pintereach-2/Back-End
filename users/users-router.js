@@ -48,7 +48,7 @@ router.get('/:id/pins', authenticate, (req, res) => {
 }) 
 
 //get all pins
-router.get('/pins/dashboard', authenticate, (req, res) => {
+router.get('/pins/dashboard', (req, res) => {
     Users.findPins()
     .then(pins => {
         res.json(pins);
